@@ -1,0 +1,22 @@
+[
+    {
+        "name": "ssl-app-${env}", 
+        "image": "324139215624.dkr.ecr.us-east-1.amazonaws.com/giveandtake-${env}:latest", 
+        "portMappings": [
+            {
+                "containerPort": 443, 
+                "hostPort": 443, 
+                "protocol": "tcp"
+            }
+        ], 
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "ssl-logs-${env}",
+                "awslogs-region": "us-east-1",
+                "awslogs-stream-prefix": "ssl"
+            }
+        },
+        "essential": true
+    }
+] 
