@@ -20,7 +20,9 @@
         "environment" : [
 	    { "name" : "AWS_ACCESS_KEY_ID", "value" : "${access_id}" },
 	    { "name" : "AWS_SECRET_ACCESS_KEY", "value" : "${secret_key}" },
-	    { "name" : "AWS_DEFAULT_REGION", "value" : "us-east-1" }
+	    { "name" : "AWS_DEFAULT_REGION", "value" : "us-east-1" },
+	    { "name" : "DOMAIN", "value" : "${domain}" },
+	    { "name" : "MAIL", "value" : "${mail}" }
 	],
         "essential": true
     }

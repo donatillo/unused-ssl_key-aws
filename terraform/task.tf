@@ -5,6 +5,8 @@ data "template_file" "task" {
         env        = "${var.env}"
         access_id  = "${var.dynamo_access_id}"
         secret_key = "${var.dynamo_secret_key}"
+        domain     = "${var.domain}"
+        mail       = "${var.mail}"
     }
 }
 

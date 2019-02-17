@@ -6,6 +6,7 @@ variable "subdomain"  {}
 variable "basename"   {}
 variable "dynamo_access_id"  {}
 variable "dynamo_secret_key" {}
+variable "mail"       {}
 
 variable "region" {
     default = "us-east-1"
