@@ -1,7 +1,7 @@
 [
     {
         "name": "ssl-app-${env}", 
-        "image": "324139215624.dkr.ecr.us-east-1.amazonaws.com/giveandtake-${env}:latest", 
+        "image": "324139215624.dkr.ecr.us-east-1.amazonaws.com/ssl-${env}:latest", 
         "portMappings": [
             {
                 "containerPort": 443, 
