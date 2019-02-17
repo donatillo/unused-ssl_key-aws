@@ -8,13 +8,11 @@ pipeline {
 
     stages {
 
-        /*
         stage('Build container') {
             steps {
                 sh 'docker build -t ssl .'
             }
         }
-        */
 
         stage('Plan infrastructure') {
             steps {
@@ -43,7 +41,6 @@ pipeline {
             }
         }
 
-        /*
         stage('Deploy container') {
             steps {
                 script {
@@ -51,17 +48,18 @@ pipeline {
                         def login = ecrLogin()
                         sh """
                             ${login}
-                            docker tag backend:latest ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/${env.MY_APP}-${env.BRANCH_NAME}
-                            docker push ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/${env.MY_APP}-${env.BRANCH_NAME}
+                            docker tag ssl:latest ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/ssl-${env.BRANCH_NAME}
+                            docker push ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/ssl-${env.BRANCH_NAME}
                         """
                     }
+                    /*
                     withCredentials([usernamePassword(credentialsId: 'aws', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                         sh "AWS_ACCESS_KEY_ID=$USER AWS_SECRET_ACCESS_KEY='$PASS' aws --region=us-east-1 ecs update-service --cluster ${env.MY_APP}-${env.BRANCH_NAME} --service backend-service --force-new-deployment"
                     }
+                    */
                 }
             }
         }
-        */
 
     }
 }
