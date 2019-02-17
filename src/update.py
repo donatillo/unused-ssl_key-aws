@@ -10,33 +10,19 @@ logging.basicConfig(
 )
 
 # globals
-db = boto3.resource('dynamodb')
-db_client = boto3.client('dynamodb')
-logging.info('Boto3 initialized.')
+ssm = boto3.client('ssm')
 
-# load variables
-try:
-    access = os.environ['AWS_ACCESS_KEY_ID']
-    secret = os.environ['AWS_SECRET_ACCESS_KEY']
-    logging.info('Credentials loaded.')
-except KeyError:
-    logging.error("Access/secret variables not set.", file=sys.stderr)
-    exit(1)
+# create parameter
+ssm.put_parameter(
+        Name='hello2',
+        Description='Description',
+        Value='world3',
+        Type='SecureString',
+        KeyId='alias/ssm_store',
+        Overwrite=True
+)
+logging.info('Parameter created.')
 
-# if table does not exist, create it
-try:
-    certificates = db.Table('certificates')
-    certificates.item_count
-    logging.info('Credentials table loaded.')
-except db.meta.client.exceptions.ResourceNotFoundException:
-    logging.info('Credentials table does not exist, creating it.')
-    certificates = db.create_table(
-            TableName='certificates',
-            KeySchema=[ { 'AttributeName': 'type', 'KeyType': 'HASH' } ], 
-            AttributeDefinitions=[ { 'AttributeName': 'type', 'AttributeType': 'S' } ],
-            ProvisionedThroughput={ 'ReadCapacityUnits': 1, 'WriteCapacityUnits': 1 }
-    )
-    certificates.meta.client.get_waiter('table_exists').wait(TableName='certificates')
-    logging.info('Credentials table created.')
-
-print(certificates.item_count)
+# read parameter
+parameter = ssm.get_parameter(Name='hello2', WithDecryption=True)
+print(parameter['Parameter']['Value'])
