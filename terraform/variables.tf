@@ -4,6 +4,8 @@ variable "env"        {}
 variable "domain"     {}
 variable "subdomain"  {}
 variable "basename"   {}
+variable "dynamo_access_id"  {}
+variable "dynamo_secret_key" {}
 
 variable "region" {
     default = "us-east-1"
