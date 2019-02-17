@@ -2,9 +2,9 @@
 data "template_file" "task" {
     template    = "${file("task.json")}"
     vars {
-        env       = "${var.env}"
-        access_id = "${var.dynamo_access_id}"
-        env       = "${var.dynamo_secret_key}"
+        env        = "${var.env}"
+        access_id  = "${var.dynamo_access_id}"
+        secret_key = "${var.dynamo_secret_key}"
     }
 }
 
