@@ -17,7 +17,7 @@ data "aws_subnet" "public_b" {
 }
 
 resource "aws_security_group" "allow_outbound" {   # this is needed for the service to go to ECR
-    name            = "allow_all_outbound"
+    name            = "allow_all_outbound_ssl"
     description     = "Allow all traffic outbound"
 
     vpc_id          = "${data.aws_vpc.main.id}"
