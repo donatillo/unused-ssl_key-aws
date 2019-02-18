@@ -22,6 +22,7 @@ resource "aws_cloudwatch_event_target" "runtask" {
             security_groups  = ["${aws_security_group.allow_outbound.id}"]
             assign_public_ip = true
         }
+        platform_version     = "LATEST"
     }
 }
 
