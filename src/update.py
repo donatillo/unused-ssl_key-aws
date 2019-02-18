@@ -1,39 +1,41 @@
+import OpenSSL
 import boto3
 import logging
 import os
+import ssl, socket
 import subprocess
 import sys
 
+#
+# globals
+#
+ssm = boto3.client('ssm')
+
+#
 # setup logs
+#
 logging.basicConfig(
     format='%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S',
     level=logging.INFO
 )
 
+#
 # get domain
+#
 try:
     domain = os.environ['DOMAIN']
     mail   = os.environ['MAIL']
 except KeyError:
     logging.error('Environment variable DOMAIN or MAIL not found.')
-    os.exit(1)
+    sys.exit(1)
 
-# globals
-ssm = boto3.client('ssm')
-
-# load parameter values
-try:
-    ssl_fullchain  = ssm.get_parameter(Name='ssl_fullchain', WithDecryption=True)['Parameter']['Value']
-    ssl_privkey    = ssm.get_parameter(Name='ssl_privkey', WithDecryption=True)['Parameter']['Value']
-    ssl_cert       = ssm.get_parameter(Name='ssl_cert', WithDecryption=True)['Parameter']['Value']
-    ssl_chain      = ssm.get_parameter(Name='ssl_chain', WithDecryption=True)['Parameter']['Value']
-    ssl_expiration = ssm.get_parameter(Name='ssl_expiration', WithDecryption=True)['Parameter']['Value']
-    #logging.info('SSL credential parameters found and loaded. Certificate expiration date: ' + ssl_expiration)
-except ssm.exceptions.ParameterNotFound:
-    logging.info('SSL credential parameters not found. Requesting certificate from Let\'s Encrypt...')
+#
+# procedure to create new certificate
+#
+def create_new_certificate():
     subprocess.run([
         'certbot', 'certonly',
-        '--dry-run',
+        #'--dry-run',
         '-d', domain, '-d', '*.' + domain,
         '--dns-route53',
         '-m', mail,
@@ -84,3 +86,27 @@ except ssm.exceptions.ParameterNotFound:
         Overwrite=True
     )
     logging.info('Done.')
+
+#
+# load parameter values
+#
+try:
+    ssm.get_parameter(Name='ssl_fullchain', WithDecryption=True)['Parameter']['Value']
+    ssm.get_parameter(Name='ssl_privkey', WithDecryption=True)['Parameter']['Value']
+    ssm.get_parameter(Name='ssl_cert', WithDecryption=True)['Parameter']['Value']
+    ssm.get_parameter(Name='ssl_chain', WithDecryption=True)['Parameter']['Value']
+    logging.info('SSL credential parameters found.')
+except ssm.exceptions.ParameterNotFound:
+    logging.info('SSL credential parameters not found. Requesting certificate from Let\'s Encrypt...')
+    create_new_certificate()
+
+#
+# calculate expiration date
+#
+try:
+    expiration_date = ssm.get_parameter(Name='ssl_expiration_date', WithDecryption=True)['Parameter']['Value']
+except ssm.exceptions.ParameterNotFound:
+    ssl_fullchain = ssm.get_parameter(Name='ssl_fullchain', WithDecryption=True)['Parameter']['Value']
+    x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, ssl_fullchain)
+    expiration_date = x509.get_notAfter()
+logging.info('Expiration date is ' + expiration_date.decode('latin1'))
