@@ -2,7 +2,6 @@
 data "template_file" "task" {
     template    = "${file("task.json")}"
     vars {
-        env        = "${var.env}"
         access_id  = "${var.dynamo_access_id}"
         secret_key = "${var.dynamo_secret_key}"
         domain     = "${var.domain}"
@@ -12,7 +11,7 @@ data "template_file" "task" {
 
 # create task definition
 resource "aws_ecs_task_definition" "service" {
-    family          = "ssl-app-${var.env}"
+    family          = "ssl-app"
     network_mode    = "awsvpc"
     requires_compatibilities = ["FARGATE"]
 	cpu             = 256 
@@ -23,7 +22,6 @@ resource "aws_ecs_task_definition" "service" {
     tags {
         Name        = "ssl-taskdefs"
         Creator     = "ssl"
-        Environment = "${var.env}"
         Description = "Task definition for ssl app."
     }
 }

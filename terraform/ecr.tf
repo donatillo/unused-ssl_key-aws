@@ -1,10 +1,9 @@
 resource "aws_ecr_repository" "repository" {
-    name = "ssl-${var.env}"
+    name = "ssl"
 
     tags {
         Name        = "ssl-repository"
         Creator     = "ssl"
-        Environment = "${var.env}"
         Description = "Repository containing docker images for the ssl service."
     }
 }

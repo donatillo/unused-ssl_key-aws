@@ -1,10 +1,9 @@
 resource "aws_cloudwatch_log_group" "ssl" {
-    name = "ssl-logs-${var.env}"
+    name = "ssl-logs"
 
     tags {
-        Name        = "ssl-logs-${var.env}"
+        Name        = "ssl-logs"
         Creator     = "ssl"
-        Environment = "${var.env}"
         Description = "Cloudwatch log group for ssl"
     }
 }

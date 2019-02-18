@@ -1,8 +1,6 @@
 variable "access_key" {}
 variable "secret_key" {}
-variable "env"        {}
 variable "domain"     {}
-variable "subdomain"  {}
 variable "basename"   {}
 variable "dynamo_access_id"  {}
 variable "dynamo_secret_key" {}

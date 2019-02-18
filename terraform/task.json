@@ -1,7 +1,7 @@
 [
     {
-        "name": "ssl-app-${env}", 
-        "image": "324139215624.dkr.ecr.us-east-1.amazonaws.com/ssl-${env}:latest", 
+        "name": "ssl-app", 
+        "image": "324139215624.dkr.ecr.us-east-1.amazonaws.com/ssl:latest", 
         "portMappings": [
             {
                 "containerPort": 443, 
@@ -12,7 +12,7 @@
         "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
-                "awslogs-group": "ssl-logs-${env}",
+                "awslogs-group": "ssl-logs",
                 "awslogs-region": "us-east-1",
                 "awslogs-stream-prefix": "ssl"
             }

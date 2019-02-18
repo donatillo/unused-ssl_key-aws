@@ -1,6 +1,6 @@
 resource "aws_resourcegroups_group" "resg-ssl" {
-    name = "ssl-${var.env}"
-    description = "Resources built for the ssl - ${var.env}."
+    name = "ssl"
+    description = "Resources built for the ssl."
     
     resource_query {
     query = <<JSON
@@ -10,10 +10,6 @@ resource "aws_resourcegroups_group" "resg-ssl" {
     {
       "Key": "Creator",
       "Values": ["ssl"]
-    },
-    {
-      "Key": "Environment",
-      "Values": ["${var.env}"]
     }
   ]
 }

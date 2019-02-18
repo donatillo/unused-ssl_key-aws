@@ -1,10 +1,9 @@
 resource "aws_ecs_cluster" "cluster" {
-    name = "ssl-${var.env}"
+    name = "ssl"
 
     tags {
         Name        = "ssl-cluster"
         Creator     = "ssl"
-        Environment = "${var.env}"
         Description = "Cluster for the SSL"
     }
 }

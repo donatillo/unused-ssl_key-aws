@@ -1,18 +1,18 @@
 data "aws_vpc" "main" {
     tags {
-        Name = "${var.basename}-vpc-${var.env}"
+        Name = "${var.basename}-vpc-master"
     }
 }
 
 data "aws_subnet" "public_a" {
     tags {
-        Name = "${var.basename}-subnet-public-${var.env}-a"
+        Name = "${var.basename}-subnet-public-master-a"
     }
 }
 
 data "aws_subnet" "public_b" {
     tags {
-        Name = "${var.basename}-subnet-public-${var.env}-b"
+        Name = "${var.basename}-subnet-public-master-b"
     }
 }
 
