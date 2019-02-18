@@ -89,14 +89,14 @@ def create_new_certificate():
     )
     logging.info('Done.')
 
-    # restart service
-    for env in ("devl", "master"):
-        subprocess.run([
-            "aws", "ecs", "update-service", "--force-new-deployment",
-            "--cluster", os.environ['BASENAME'] + "-" + env,
-            "--service", "backend-service"
-        ])
-        logging.info('Service backend-service at cluster ' + os.environ['BASENAME'] + "-" + env + ' restarted.')
+# restart service
+for env in ("devl", "master"):
+    subprocess.run([
+        "aws", "ecs", "update-service", "--force-new-deployment",
+        "--cluster", os.environ['BASENAME'] + "-" + env,
+        "--service", "backend-service"
+    ])
+    logging.info('Service backend-service at cluster ' + os.environ['BASENAME'] + "-" + env + ' restarted.')
 
 #
 # load parameter values
