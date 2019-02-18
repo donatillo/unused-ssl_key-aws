@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_rule" "runtask" {
     name        = "update_ssl_cert"
     description = "Update the SSL certificate."
-    schedule_expression = "2 days"
+    schedule_expression = "rate(2 days)"
 }
 
 resource "aws_cloudwatch_event_target" "runtask" {
