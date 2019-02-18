@@ -5,6 +5,7 @@ import os
 import ssl, socket
 import subprocess
 import sys
+from datetime import datetime
 
 #
 # globals
@@ -108,5 +109,9 @@ try:
 except ssm.exceptions.ParameterNotFound:
     ssl_fullchain = ssm.get_parameter(Name='ssl_fullchain', WithDecryption=True)['Parameter']['Value']
     x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, ssl_fullchain)
-    expiration_date = x509.get_notAfter()
-logging.info('Expiration date is ' + expiration_date.decode('latin1'))
+    expiration_date = datetime.strptime(x509.get_notAfter().decode('latin1'),'%Y%m%d%H%M%SZ')
+logging.info('Expiration date is ' + str(expiration_date) + '.')
+
+if (expiration_date - datetime.now()).days <= 5:
+    logging.info('Less than 5 days to expire certificate. Renewing it...')
+    create_new_certificate()
