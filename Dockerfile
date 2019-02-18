@@ -1,11 +1,9 @@
 FROM alpine
 
 RUN apk --no-cache add python3 certbot \
+    && apk add aws-cli --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
     && pip3 install --upgrade pip \
     && pip3 install boto3 certbot-dns-route53 pyopenssl
-
-#    && apk --no-cache add --virtual deps gcc musl-dev linux-headers python3-dev \
-#    && apk del deps
 
 WORKDIR /usr/src/app
 

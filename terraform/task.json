@@ -22,7 +22,8 @@
 	    { "name" : "AWS_SECRET_ACCESS_KEY", "value" : "${secret_key}" },
 	    { "name" : "AWS_DEFAULT_REGION", "value" : "us-east-1" },
 	    { "name" : "DOMAIN", "value" : "${domain}" },
-	    { "name" : "MAIL", "value" : "${mail}" }
+	    { "name" : "MAIL", "value" : "${mail}" },
+	    { "name" : "BASENAME", "value" : "${basename}" }
 	],
         "essential": true
     }

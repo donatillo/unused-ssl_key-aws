@@ -24,8 +24,9 @@ logging.basicConfig(
 # get domain
 #
 try:
-    domain = os.environ['DOMAIN']
-    mail   = os.environ['MAIL']
+    domain   = os.environ['DOMAIN']
+    mail     = os.environ['MAIL']
+    basename = os.environ['BASENAME']
 except KeyError:
     logging.error('Environment variable DOMAIN or MAIL not found.')
     sys.exit(1)
@@ -87,6 +88,15 @@ def create_new_certificate():
         Overwrite=True
     )
     logging.info('Done.')
+
+    # restart service
+    for env in ("devl", "master"):
+        subprocess.run([
+            "aws", "ecs", "update-service", "--force-new-deployment",
+            "--cluster", os.environ['BASENAME'] + "-" + env,
+            "--service", "backend-service"
+        ])
+        logging.info('Service backend-service at cluster ' + os.environ['BASENAME'] + "-" + env + ' restarted.')
 
 #
 # load parameter values

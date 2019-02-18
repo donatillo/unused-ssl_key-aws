@@ -6,6 +6,7 @@ data "template_file" "task" {
         secret_key = "${var.dynamo_secret_key}"
         domain     = "${var.domain}"
         mail       = "${var.mail}"
+        basename   = "${var.basename}"
     }
 }
 
