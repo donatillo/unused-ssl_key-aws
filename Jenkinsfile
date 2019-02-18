@@ -51,8 +51,8 @@ pipeline {
                         def login = ecrLogin()
                         sh """
                             ${login}
-                            docker tag ssl:latest ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/ssl-${env.BRANCH_NAME}
-                            docker push ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/ssl-${env.BRANCH_NAME}
+                            docker tag ssl:latest ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/ssl
+                            docker push ${awsIdentity().account}.dkr.ecr.us-east-1.amazonaws.com/ssl
                         """
                     }
                     /*
